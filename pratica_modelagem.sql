@@ -44,3 +44,25 @@ CREATE TABLE "bankAccount"(
 	"openDate" TIMESTAMP NOT NULL DEFAULT NOW(),
 	"closeDate" TIMESTAMP DEFAULT NULL
 );
+
+CREATE TABLE transactions(
+	id SERIAL PRIMARY KEY,
+	"bankAccountId" INTEGER NOT NULL REFERENCES "bankAccount"(id),
+	amount INTEGER NOT NULL,
+	type TEXT NOT NULL,
+	time TIMESTAMP NOT NULL DEFAULT NOW(),
+	description TEXT NOT NULL, 
+	cancelled BOOLEAN NOT NULL DEFAULT false
+);
+
+CREATE TABLE "creditCards"(
+	id SERIAL PRIMARY KEY,
+	"bankAccountId" INTEGER NOT NULL REFERENCES "bankAccount"(id),
+	name TEXT NOT NULL,
+	number INTEGER UNIQUE NOT NULL,
+	"securityCode" INTEGER NOT NULL,
+	"expirationMonth" INTEGER NOT NULL,
+	"expirationYear" INTEGER NOT NULL,
+	password TEXT NOT NULL,
+	"limit" INTEGER NOT NULL
+);
