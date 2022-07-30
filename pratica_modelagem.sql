@@ -19,11 +19,13 @@ CREATE TABLE customers(
 	password TEXT NOT NULL
 );
 
+CREATE TYPE NUMBER_TYPE AS ENUM ('landline', 'mobile');
+
 CREATE TABLE "customerPhones"(
 	id SERIAL PRIMARY KEY,
 	"customerId" INTEGER NOT NULL REFERENCES customers(id),
 	number INTEGER UNIQUE NOT NULL,
-	type TEXT NOT NULL DEFAULT 'mobile'
+	"type" NUMBER_TYPE NOT NULL
 );
 
 CREATE TABLE "customerAddresses"(
@@ -45,11 +47,13 @@ CREATE TABLE "bankAccount"(
 	"closeDate" TIMESTAMP DEFAULT NULL
 );
 
+CREATE TYPE TRANSACTION AS ENUM ('deposit', 'withdraw');
+
 CREATE TABLE transactions(
 	id SERIAL PRIMARY KEY,
 	"bankAccountId" INTEGER NOT NULL REFERENCES "bankAccount"(id),
 	amount INTEGER NOT NULL,
-	type TEXT NOT NULL,
+	"type" TRANSACTION NOT NULL,
 	time TIMESTAMP NOT NULL DEFAULT NOW(),
 	description TEXT NOT NULL, 
 	cancelled BOOLEAN NOT NULL DEFAULT false
